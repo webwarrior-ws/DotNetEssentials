@@ -1,0 +1,16 @@
+name: Build, package and push workflow
+on: push
+
+jobs:
+    build-deploy:
+        runs-on: windows-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Build and Package
+          shell: pwsh
+          run: |
+              .\build.ps1
+
+        - name: Upload
+          run: |
+              .\nuget.bat ${{ secrets.NUGET_API_KEY }}

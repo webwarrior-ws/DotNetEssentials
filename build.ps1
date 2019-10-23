@@ -7,6 +7,10 @@ if (!$env:BUILD_NUMBER) {
     $env:BUILD_NUMBER = "0"
 }
 
+$date = get-date -format "yyyyMMdd-HHmm"
+$hash = & git rev-parse --short HEAD
+$tag = & git describe --tags --abbrev=0
+
 # Find MSBuild on this machine
 if ($IsMacOS) {
     $msbuild = "msbuild"
@@ -24,12 +28,15 @@ Write-Output "Using MSBuild from: $msbuild"
 if ($lastexitcode -ne 0) { exit $lastexitcode; }
 
 # Create the stable NuGet package
-& $msbuild "./Xamarin.Essentials/Xamarin.Essentials.csproj" /t:Pack /p:Configuration=Release /p:ContinuousIntegrationBuild=$cibuild /p:Deterministic=false /p:VersionSuffix=".$env:BUILD_NUMBER"
+echo "Creating package"
+& $msbuild "./Xamarin.Essentials/Xamarin.Essentials.csproj" /t:Pack /p:Configuration=Release /p:ContinuousIntegrationBuild=$cibuild /p:Deterministic=false /p:PackageVersion="$tag-date$date.git-$hash"
 if ($lastexitcode -ne 0) { exit $lastexitcode; }
 
+<#
 # Create the beta NuGet package
 & $msbuild "./Xamarin.Essentials/Xamarin.Essentials.csproj" /t:Pack /p:Configuration=Release /p:ContinuousIntegrationBuild=$cibuild /p:Deterministic=false /p:VersionSuffix=".$env:BUILD_NUMBER-beta"
 if ($lastexitcode -ne 0) { exit $lastexitcode; }
+#>
 
 # Copy everything into the output folder
 Copy-Item "./Xamarin.Essentials/bin/Release" "./Output" -Recurse -Force
