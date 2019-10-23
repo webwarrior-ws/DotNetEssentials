@@ -5,7 +5,7 @@
     <AssemblyName>Xamarin.Essentials</AssemblyName>
     <RootNamespace>Xamarin.Essentials</RootNamespace>
     <PackageId>DotNetEssentials</PackageId>
-    <PackageIconUrl>https://raw.githubusercontent.com/xamarin/Essentials/master/Assets/xamarin.essentials_128x128.png</PackageIconUrl>
+    <PackageIcon>Assets\xamarin.essentials_128x128.png</PackageIcon>
     <Summary>Xamarin.Essentials: a kit of essential API's for your apps</Summary>
     <PackageTags>xamarin, windows, ios, android, xamarin.forms, watchos, tvos, toolkit, Xamarin.Essentials, kit</PackageTags>
     <Title>Xamarin.Essentials</Title>
@@ -25,7 +25,7 @@
     <DefineConstants>$(DefineConstants);</DefineConstants>
     <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <PackageLicenseUrl>https://go.microsoft.com/fwlink/?linkid=868961</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://go.microsoft.com/fwlink/?linkid=868960</PackageProjectUrl>
     <MDocDocumentationDirectory>$(MSBuildThisFileDirectory)..\docs\en</MDocDocumentationDirectory>
@@ -51,6 +51,7 @@
     <PackageReference Include="mdoc" Version="5.7.4.10" PrivateAssets="All" />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
+    <None Include="..\Assets\xamarin.essentials_128x128.png" Pack="true" PackagePath="Assets\xamarin.essentials_128x128.png"/>
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.')) ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
