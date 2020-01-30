@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || GTK
 using System.Net.NetworkInformation;
 #endif
 
@@ -9,7 +9,7 @@ namespace Xamarin.Essentials
 {
     public static partial class Connectivity
     {
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || GTK
         static void StartListeners()
         {
             NetworkChange.NetworkAddressChanged += NetworkStatusChanged;
