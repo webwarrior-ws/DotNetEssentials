@@ -13,4 +13,5 @@ jobs:
 
         - name: Upload
           run: |
-              .\nuget.bat ${{ secrets.NUGET_API_KEY }}
+              git clone https://github.com/nblockchain/fsx
+              .\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx ${{secrets.NUGET_API_KEY}}
