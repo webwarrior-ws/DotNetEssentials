@@ -1,0 +1,19 @@
+name: Build, package & push
+on: push
+
+jobs:
+  build-deploy:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build and Package
+      run: |
+        dotnet tool install --global Cake.Tool
+
+        git clone https://github.com/nblockchain/fsx
+        $env:NUGET_VERSION = `.\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx --output-version 1.5.9999`
+        dotnet cake
+
+    - name: Upload
+      run: |
+        .\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx ${{secrets.NUGET_API_KEY}}
