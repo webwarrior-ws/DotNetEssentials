@@ -3,6 +3,8 @@ on: [push, pull_request]
 
 jobs:
   build-deploy:
+    env:
+      BASE_VERSION: 1.5.99999
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
@@ -11,7 +13,7 @@ jobs:
         dotnet tool install --global Cake.Tool
 
         git clone https://github.com/nblockchain/fsx
-        $env:NUGET_VERSION = `.\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx --output-version 1.5.9999`
+        $env:NUGET_VERSION = `.\fsx\Tools\fsi.bat fsx\Tools\nugetPush.fsx --output-version $env:BASE_VERSION`
         dotnet cake
 
     - name: Upload
