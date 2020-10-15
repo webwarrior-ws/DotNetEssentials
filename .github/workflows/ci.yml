@@ -1,5 +1,5 @@
 name: Build, package & push
-on: push
+on: [push, pull_request]
 
 jobs:
   build-deploy:
