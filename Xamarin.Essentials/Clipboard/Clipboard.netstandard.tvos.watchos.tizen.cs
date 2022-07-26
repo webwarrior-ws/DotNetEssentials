@@ -4,6 +4,31 @@ namespace Xamarin.Essentials
 {
     public static partial class Clipboard
     {
+#if GTK
+        static readonly Gdk.Atom clipboardAtom = Gdk.Atom.Intern("CLIPBOARD", false);
+
+        static Task PlatformSetTextAsync(string text)
+        {
+            var clipboard = Gtk.Clipboard.Get(clipboardAtom);
+            clipboard.Text = text;
+            return Task.FromResult(0);
+        }
+
+        static bool PlatformHasText
+        {
+            get
+            {
+                var clipboard = Gtk.Clipboard.Get(clipboardAtom);
+                return clipboard.WaitIsTextAvailable();
+            }
+        }
+
+        static Task<string> PlatformGetTextAsync()
+        {
+            var clipboard = Gtk.Clipboard.Get(clipboardAtom);
+            return Task.FromResult(clipboard.WaitForText());
+        }
+#else
         static Task PlatformSetTextAsync(string text)
             => throw ExceptionUtils.NotSupportedOrImplementedException;
 
@@ -12,6 +37,7 @@ namespace Xamarin.Essentials
 
         static Task<string> PlatformGetTextAsync()
             => throw ExceptionUtils.NotSupportedOrImplementedException;
+#endif
 
         static void StartClipboardListeners()
             => throw ExceptionUtils.NotSupportedOrImplementedException;
